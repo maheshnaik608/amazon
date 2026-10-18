@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Shopping</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eaeded;
+        }
+        header {
+            background: #131921;
+            color: white;
+            padding: 16px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .logo { font-size: 27px; font-weight: bold; }
+        .logo span { color: #ff9900; }
+        form.search { display: flex; flex: 1; max-width: 600px; }
+        .search input {
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        button, .cart-link {
+            background: #ff9900;
+            border: none;
+            padding: 11px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .search button { border-radius: 0 4px 4px 0; }
+        .cart-link { color: #111; text-decoration: none; }
+        .banner {
+            background: #d9e8ed;
+            padding: 35px 20px;
+            text-align: center;
+        }
+        .banner h1 { margin-top: 0; }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 20px;
+            padding: 25px;
+        }
+        .product {
+            background: white;
+            padding: 22px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .emoji { font-size: 70px; padding: 15px; }
+        .product h3 { min-height: 40px; }
+        .price { color: #b12704; font-size: 22px; font-weight: bold; }
+        .product button { width: 100%; }
+        footer {
+            background: #131921;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">amazon<span>.in</span></div>
+    <form class="search" action="/" method="get">
+        <input name="search" placeholder="Search products..."
+               value="{{ search }}">
+        <button type="submit">Search</button>
+    </form>
+    <a class="cart-link" href="/cart">🛒 Cart ({{ cart_count }})</a>
+</header>
+
+<section class="banner">
+    <h1>Welcome to Amazon Shopping</h1>
+    <p>Discover electronics, fashion and more at great prices.</p>
+</section>
+
+<main class="products">
+    {% for product in products %}
+    <article class="product">
+        <div class="emoji">{{ product.emoji }}</div>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.category }}</p>
+        <p class="price">₹{{ "{:,}".format(product.price) }}</p>
+        <form action="/add/{{ product.id }}" method="post">
+            <button type="submit">Add to Cart</button>
+        </form>
+    </article>
+    {% else %}
+    <p>No products found. Try another search.</p>
+    {% endfor %}
+</main>
+
+<footer>
+    Amazon Shopping Demo | Built with Python Flask
+</footer>
+</body>
+</html>
